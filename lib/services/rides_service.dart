@@ -10,29 +10,23 @@ import '../model/ride/ride.dart';
 class RidesService {
   static List<Ride> allRides = fakeRides;
 
-  static List<Ride> _filterByDeparture(Location departure) {
-    return allRides
-        .where((pref) => pref.departureLocation == departure)
-        .toList();
+  static List<Ride> _filterByDeparture(Location departure, List<Ride> rides) {
+    return rides.where((pref) => pref.departureLocation == departure).toList();
   }
 
-  static List<Ride> _filterBySeatRequested(int seatRequested) {
-    return allRides
-        .where((pref) => pref.remainingSeats >= seatRequested)
-        .toList();
+  static List<Ride> _filterBySeatRequested(
+      int seatRequested, List<Ride> rides) {
+    return rides.where((pref) => pref.remainingSeats >= seatRequested).toList();
   }
 
   static List<Ride> filterBy({Location? departure, int? seatRequested}) {
-    List<Ride> result = [];
-    if (departure != null) {
-      result.addAll(_filterByDeparture(departure));
-    }
-    if (seatRequested != null) {
-      result.addAll(_filterBySeatRequested(seatRequested));
-    }
-    
+    List<Ride> result = allRides;
 
-    return result.where((r) => r.departureLocation == departure).toList();
+    if (departure != null) result = _filterByDeparture(departure, result);
+
+    if (seatRequested != null) result = _filterBySeatRequested(seatRequested, result);
+
+    return result;
   }
 }
 // filter by seat
