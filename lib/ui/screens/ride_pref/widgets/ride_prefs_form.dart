@@ -65,20 +65,32 @@ class _RidePrefFormState extends State<RidePrefForm> {
     }
   }
 
-  void pickDeparture() {
-    Navigator.push(
+  void pickDeparture() async {
+    final result = await Navigator.push<Location>(
         context,
         MaterialPageRoute(
           builder: (_) => const LocationPickerScreen(),
         ));
+
+    if (result != null) {
+      setState(() {
+        departure = result;
+      });
+    }
   }
 
-  void pickArrival() {
-    Navigator.push(
+  void pickArrival() async {
+   final result = await Navigator.push<Location>(
         context,
         MaterialPageRoute(
           builder: (_) => const LocationPickerScreen(),
         ));
+
+    if (result != null) {
+      setState(() {
+        arrival = result;
+      });
+    }
   }
 
   void pickDate() {
@@ -99,8 +111,8 @@ class _RidePrefFormState extends State<RidePrefForm> {
 
   void search() {}
 
- void onSearch() {
-    if (departure == null) return  pickDeparture();
+  void onSearch() {
+    if (departure == null) return pickDeparture();
     if (arrival == null) return pickArrival();
 
     return search();
