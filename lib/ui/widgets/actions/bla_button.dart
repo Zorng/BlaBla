@@ -43,7 +43,7 @@ class BlaButton extends StatelessWidget {
 
     return FilledButton(
       style: FilledButton.styleFrom(
-        padding: EdgeInsets.symmetric(vertical: 20),
+        padding: EdgeInsets.all(20),
         shape: shape ,
         backgroundColor: backGroundColor,
         side: borderSide,
@@ -51,11 +51,12 @@ class BlaButton extends StatelessWidget {
       ),
       onPressed: action,
       child: Row(
+        mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           iconData != null ? Icon(iconData, color: textColor) : SizedBox(),
           const SizedBox(
-            width: 8,
+            width: 0,
           ),
           Text(
             title,
