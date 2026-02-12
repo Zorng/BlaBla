@@ -111,12 +111,15 @@ class _RidePrefFormState extends State<RidePrefForm> {
         ));
   }
 
-  void pickSeat() {
-    Navigator.push(
+  void pickSeat() async {
+    final result = await Navigator.push<int>(
         context,
         MaterialPageRoute(
-          builder: (_) => const SeatPickerScreen(),
+          builder: (_) => SeatPickerScreen(initSeat: requestedSeats),
         ));
+    setState(() {
+      requestedSeats = result!;
+    });
   }
 
   void search() {}
