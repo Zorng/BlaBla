@@ -1,3 +1,11 @@
+import 'package:blabla/ui/screens/date_picker/date_picker_screen.dart';
+import 'package:blabla/ui/screens/location_picker/location_picker_screen.dart';
+import 'package:blabla/ui/screens/ride_pref/widgets/ride_prefs_form_tile.dart';
+import 'package:blabla/ui/screens/seat_picker/seat_picker_screen.dart';
+import 'package:blabla/ui/theme/theme.dart';
+import 'package:blabla/ui/widgets/actions/bla_button.dart';
+import 'package:blabla/ui/widgets/display/bla_divider.dart';
+import 'package:blabla/utils/date_time_utils.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../model/ride/locations.dart';
@@ -35,12 +43,68 @@ class _RidePrefFormState extends State<RidePrefForm> {
   @override
   void initState() {
     super.initState();
-    // TODO
+    requestedSeats = 1;
+    departureDate = DateTime.now();
+    if (widget.initRidePref != null) {
+      departure = widget.initRidePref?.departure;
+      arrival = widget.initRidePref?.arrival;
+    }
   }
 
   // ----------------------------------
   // Handle events
   // ----------------------------------
+
+  void swapLocation() {
+    if (departure != null || arrival != null) {
+      setState(() {
+        Location? temp = arrival;
+        arrival = departure;
+        departure = temp;
+      });
+    }
+  }
+
+  void pickDeparture() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const LocationPickerScreen(),
+        ));
+  }
+
+  void pickArrival() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const LocationPickerScreen(),
+        ));
+  }
+
+  void pickDate() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const DatePickerScreen(),
+        ));
+  }
+
+  void pickSeat() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const SeatPickerScreen(),
+        ));
+  }
+
+  void search() {}
+
+ void onSearch() {
+    if (departure == null) return  pickDeparture();
+    if (arrival == null) return pickArrival();
+
+    return search();
+  }
 
   // ----------------------------------
   // Compute the widgets rendering
@@ -51,11 +115,57 @@ class _RidePrefFormState extends State<RidePrefForm> {
   // ----------------------------------
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [ 
-        
-        ]);
+    return Card(
+      clipBehavior: Clip.hardEdge,
+      margin: EdgeInsets.all(0),
+      color: Colors.white,
+      child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            FormTile(
+                leadIcon: Icons.circle_outlined,
+                title: departure != null ? departure?.name : "Leaving from",
+                isFilled: departure != null,
+                action: () => {pickDeparture()},
+
+                // the real app hide the swap button until one of the location is selected -> swapped cant be tested until location picker works
+                trailingIcon: departure != null
+                    ? IconButton(
+                        onPressed: () => swapLocation(),
+                        icon: Icon(
+                          Icons.swap_vert,
+                          color: BlaColors.primary,
+                        ),
+                      )
+                    : null),
+            BlaDivider(),
+            FormTile(
+              leadIcon: Icons.circle_outlined,
+              title: arrival != null ? arrival?.name : "Going to",
+              isFilled: arrival != null,
+              action: pickArrival,
+            ),
+            BlaDivider(),
+            FormTile(
+              leadIcon: Icons.calendar_month_outlined,
+              title: DateTimeUtils.formatDateTime(departureDate),
+              isFilled: true,
+              action: pickDate,
+            ),
+            BlaDivider(),
+            FormTile(
+              leadIcon: Icons.person_outlined,
+              title: requestedSeats.toString(),
+              isFilled: true,
+              action: pickSeat,
+            ),
+            BlaButton(
+              title: "Search",
+              action: onSearch,
+              isRounded: false,
+            )
+          ]),
+    );
   }
 }

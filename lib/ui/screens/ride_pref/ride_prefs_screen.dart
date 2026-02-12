@@ -39,6 +39,7 @@ class RidePrefsScreen extends StatelessWidget {
         SizedBox(height: 100),
 
         Container(
+         
           margin: EdgeInsets.symmetric(horizontal: BlaSpacings.xxl),
           decoration: BoxDecoration(
             color: Colors.white, // White background

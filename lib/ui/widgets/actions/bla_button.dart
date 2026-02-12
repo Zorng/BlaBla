@@ -3,15 +3,18 @@ import 'package:flutter/material.dart';
 
 class BlaButton extends StatelessWidget {
   final String title;
-  final Function action;
+  final VoidCallback action;
   final IconData? iconData;
   final bool isPrimary;
+  final bool isRounded;
   const BlaButton(
       {super.key,
       required this.title,
       required this.action,
       this.iconData,
-      this.isPrimary = true});
+      this.isPrimary = true,
+      this.isRounded = true,
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -26,17 +29,27 @@ class BlaButton extends StatelessWidget {
     final BorderSide? borderSide =
         isPrimary ? null : BorderSide(color: BlaColors.backgroundAccent);
 
-    final Color ? feedbackColor = isPrimary ? null : BlaColors.neutralLight.withAlpha(5);
+    final Color? feedbackColor =
+        isPrimary ? null : BlaColors.neutralLight.withAlpha(5);
+
+    final RoundedRectangleBorder? shape = isRounded? null : RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.only(
+      topLeft: Radius.zero,
+      topRight: Radius.zero,
+      bottomLeft: Radius.circular(12),
+      bottomRight: Radius.circular(12)
+
+    ))
+    ;
 
     return FilledButton(
       style: FilledButton.styleFrom(
-          backgroundColor: backGroundColor,
-          side: borderSide,
-          overlayColor: feedbackColor,
+        padding: EdgeInsets.symmetric(vertical: 20),
+        shape: shape ,
+        backgroundColor: backGroundColor,
+        side: borderSide,
+        overlayColor: feedbackColor,
       ),
-      onPressed: () {
-        action();
-      },
+      onPressed: action,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
