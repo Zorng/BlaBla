@@ -69,7 +69,7 @@ class _RidePrefFormState extends State<RidePrefForm> {
     final result = await Navigator.push<Location>(
         context,
         MaterialPageRoute(
-          builder: (_) => const LocationPickerScreen(),
+          builder: (_) =>  LocationPickerScreen(initLocation: departure,),
         ));
 
     if (result != null) {
@@ -83,7 +83,7 @@ class _RidePrefFormState extends State<RidePrefForm> {
    final result = await Navigator.push<Location>(
         context,
         MaterialPageRoute(
-          builder: (_) => const LocationPickerScreen(),
+          builder: (_) =>  LocationPickerScreen(initLocation: arrival,),
         ));
 
     if (result != null) {
@@ -97,7 +97,7 @@ class _RidePrefFormState extends State<RidePrefForm> {
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (_) => const DatePickerScreen(),
+          builder: (_) => DatePickerScreen(),
         ));
   }
 
@@ -156,7 +156,7 @@ class _RidePrefFormState extends State<RidePrefForm> {
               leadIcon: Icons.circle_outlined,
               title: arrival != null ? arrival?.name : "Going to",
               isFilled: arrival != null,
-              action: pickArrival,
+              action: () => {pickArrival()},
             ),
             BlaDivider(),
             FormTile(

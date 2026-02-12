@@ -6,7 +6,8 @@ import 'package:blabla/ui/widgets/display/bla_divider.dart';
 import 'package:flutter/material.dart';
 
 class LocationPickerScreen extends StatefulWidget {
-  const LocationPickerScreen({super.key});
+  final Location? initLocation;
+  const LocationPickerScreen({super.key, this.initLocation});
 
   @override
   State<LocationPickerScreen> createState() => _LocationPickerScreenState();
@@ -15,9 +16,14 @@ class LocationPickerScreen extends StatefulWidget {
 class _LocationPickerScreenState extends State<LocationPickerScreen> {
   final SearchController _controller = SearchController();
 
-
-  void onSelected(Location location) {
-    Navigator.pop(context);
+  @override
+  void initState() {
+    if (widget.initLocation != null) {
+      _controller.text = widget.initLocation!.name;
+    } else {
+      _controller.text = '';
+    }
+    super.initState();
   }
 
   @override
@@ -69,6 +75,7 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
                   onPressed: () {
                     // we need to by pass the close view because the default behavoir of tapping
                     // leading view is closing the view not poping like the bar lead
+                    _controller.closeView(null);
                     Navigator.of(context).pop();
                   },
                   icon: Icon(Icons.chevron_left, color: BlaColors.neutralDark)),
@@ -106,9 +113,13 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
                   ...filteredHistory.map((location) {
                     return ListTile(
                         onTap: () => {
-                          searchController.closeView(null),
-                          Navigator.pop(context, location)
-                        },
+                              // since the view is actually opened form the bar,
+                              //the pop will actually close the view. Since we need
+                              //to exit the screen on select we need to by pass the default
+                              //behavior by manaully writing a closeview
+                              searchController.closeView(null),
+                              Navigator.pop(context, location)
+                            },
                         leading: Icon(
                           Icons.history,
                           color: BlaColors.neutralDark,
@@ -129,6 +140,10 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
                   ...filteredResults.map((location) {
                     return ListTile(
                       onTap: () => {
+                        // since the view is actually opened form the bar,
+                        //the pop will actually close the view. Since we need
+                        //to exit the screen on select we need to by pass the default
+                        //behavior by manaully writing a closeview
                         searchController.closeView(null),
                         Navigator.pop(context, location)
                       },
