@@ -5,6 +5,7 @@ import 'package:blabla/ui/screens/seat_picker/seat_picker_screen.dart';
 import 'package:blabla/ui/theme/theme.dart';
 import 'package:blabla/ui/widgets/actions/bla_button.dart';
 import 'package:blabla/ui/widgets/display/bla_divider.dart';
+import 'package:blabla/utils/animation_utils.dart';
 import 'package:blabla/utils/date_time_utils.dart';
 import 'package:flutter/material.dart';
 
@@ -66,12 +67,17 @@ class _RidePrefFormState extends State<RidePrefForm> {
   }
 
   void pickDeparture() async {
-    final result = await Navigator.push<Location>(
-        context,
-        MaterialPageRoute(
-          builder: (_) =>  LocationPickerScreen(initLocation: departure,),
-        ));
-
+    // final result = await Navigator.push<Location>(
+    //     context,
+    //     MaterialPageRoute(
+    //       builder: (_) => LocationPickerScreen(
+    //         initLocation: departure,
+    //       ),
+    //     ));
+    final result = await Navigator.of(context).push<Location>(
+        NavigationAnimation.bottomToTopNavigation(LocationPickerScreen(
+      initLocation: departure,
+    )));
     if (result != null) {
       setState(() {
         departure = result;
@@ -80,12 +86,16 @@ class _RidePrefFormState extends State<RidePrefForm> {
   }
 
   void pickArrival() async {
-   final result = await Navigator.push<Location>(
-        context,
-        MaterialPageRoute(
-          builder: (_) =>  LocationPickerScreen(initLocation: arrival,),
-        ));
+    //  final result = await Navigator.push<Location>(
+    //       context,
+    //       MaterialPageRoute(
+    //         builder: (_) =>  LocationPickerScreen(initLocation: arrival,),
+    //       ));
 
+    final result = await Navigator.of(context).push<Location>(
+        NavigationAnimation.bottomToTopNavigation(LocationPickerScreen(
+      initLocation: arrival,
+    )));
     if (result != null) {
       setState(() {
         arrival = result;
