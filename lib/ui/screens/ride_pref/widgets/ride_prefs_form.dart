@@ -155,7 +155,7 @@ class _RidePrefFormState extends State<RidePrefForm> {
                 action: () => {pickDeparture()},
 
                 // the real app hide the swap button until one of the location is selected -> swapped cant be tested until location picker works
-                trailingIcon: departure != null
+                trailingIcon: departure != null || arrival != null
                     ? IconButton(
                         onPressed: () => swapLocation(),
                         icon: Icon(
