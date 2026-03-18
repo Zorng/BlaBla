@@ -1,6 +1,7 @@
-import 'package:blabla/services/location_service.dart';
+import 'package:blabla/data/repositories/location/location_repository.dart';
 import 'package:blabla/ui/widgets/display/bla_divider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../model/ride/locations.dart';
 import '../../theme/theme.dart';
@@ -46,21 +47,32 @@ class _BlaLocationPickerState extends State<BlaLocationPicker> {
     });
   }
 
-  List<Location> get filteredLocation {
-    if (currentSearchText.length < 2) {
-      return [];
-    }
-    return LocationsService.availableLocations
-        .where(
-          (location) => location.name.toUpperCase().contains(
-            currentSearchText.toUpperCase(),
-          ),
-        )
-        .toList();
-  }
+  // List<Location> get filteredLocation {
+  //   if (currentSearchText.length < 2) {
+  //     return [];
+  //   }
+  //   return LocationsService.availableLocations
+  //       .where(
+  //         (location) => location.name.toUpperCase().contains(
+  //               currentSearchText.toUpperCase(),
+  //             ),
+  //       )
+  //       .toList();
+  // }
 
   @override
   Widget build(BuildContext context) {
+    LocationRepository repository = context.watch<LocationRepository>();
+
+    List<Location> filteredLocation = repository
+        .getLocations()
+        .where(
+          (location) => location.name.toUpperCase().contains(
+                currentSearchText.toUpperCase(),
+              ),
+        )
+        .toList();
+    print(filteredLocation);
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(
@@ -75,9 +87,7 @@ class _BlaLocationPickerState extends State<BlaLocationPicker> {
               onBackTap: onBackTap,
               onSearchChanged: onSearchChanged,
             ),
-
             SizedBox(height: 20),
-
             Expanded(
               child: ListView.builder(
                 itemCount: filteredLocation.length,
@@ -200,13 +210,11 @@ class LocationTile extends StatelessWidget {
         ListTile(
           onTap: () => onTap(location),
           leading: Icon(Icons.history, color: BlaColors.iconLight),
-
           title: Text(title, style: BlaTextStyles.body),
           subtitle: Text(
             subTitle,
             style: BlaTextStyles.label.copyWith(color: BlaColors.textLight),
           ),
-
           trailing: Icon(
             Icons.arrow_forward_ios,
             color: BlaColors.iconLight,
