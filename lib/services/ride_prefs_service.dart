@@ -1,6 +1,3 @@
-import 'package:blabla/model/ride/locations.dart';
-
-import '../data/dummy_data.dart';
 import '../model/ride_pref/ride_pref.dart';
 
 ////
@@ -8,20 +5,28 @@ import '../model/ride_pref/ride_pref.dart';
 ///   - History of the last ride preferences        (to allow users to re-use their last preferences)
 ///   - Curent selected ride preferences.
 ///
+
+// TODO Improve this with a proper repository and a global state
 class RidePrefsService {
-  static RidePref? selectedRidePref; // The current selected ride preference
+  static RidePreference? _selectedPreference;
+  static final List<RidePreference> _preferenceHistory = [];
 
-  static List<RidePref> ridePrefsHistory = fakeRidePrefs;
+  static final int maxAllowedSeats = 8;
 
-  // a SET of location counted from both Dept and Arr of RidePrefHistory
-  // if no hit, -> set of all
-  // if hit -> set ot hit location
+  static RidePreference? get selectedPreference => _selectedPreference;
+  static List<RidePreference> get preferenceHistory => _preferenceHistory;
 
-  static final List<Location> _departures = fakeRidePrefs.map((r) => r.departure).toList();
-  static final List<Location> _arrivals = fakeRidePrefs.map((r) => r.arrival).toList();
+  static void selectPreference(RidePreference preference) {
+    if (preference != _selectedPreference) {
+      // Set the selected preference
+      _selectedPreference = preference;
 
-  static Set<Location> get uniqueLocationSet => {..._departures, ..._arrivals};
+      // Push to history
+      _addPreferenceToHistory(preference);
+    }
+  }
 
-  static List<Location> uniqueLocationsHist = uniqueLocationSet.toList();
-  
+  static void _addPreferenceToHistory(RidePreference preference) {
+    _preferenceHistory.add(preference);
+  }
 }
