@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:provider/single_child_widget.dart';
 import 'ui/screens/home/home_screen.dart';
 import 'ui/theme/theme.dart';
 
-void mainCommon(List<InheritedProvider> providers) {
-  runApp(
-    MultiProvider(providers: providers, child: BlaBlaApp(),)
-  );
+void mainCommon(List<SingleChildWidget> providers) {
+  runApp(MultiProvider(providers: providers, child: const BlaBlaApp()));
 }
 
 // void main() {
