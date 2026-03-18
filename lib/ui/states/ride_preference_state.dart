@@ -2,6 +2,8 @@ import 'package:blabla/data/repositories/ride_preference/ride_preference_reposit
 import 'package:blabla/model/ride_pref/ride_pref.dart';
 import 'package:flutter/material.dart';
 
+
+// i accidentally completed it in BLA-201 when i read the caution.
 class RidePreferenceState extends ChangeNotifier {
   final RidePreferenceRepository repo;
   RidePreferenceState({required this.repo});
