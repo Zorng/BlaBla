@@ -143,6 +143,7 @@ class _BlaRidePreferencePickerState extends State<BlaRidePreferencePicker> {
       arrival: arrival!,
       requestedSeats: requestedSeats,
     );
+    print(newPreference);
 
     widget.onRidePreferenceSelected(newPreference);
   }
@@ -193,9 +194,8 @@ class _BlaRidePreferencePickerState extends State<BlaRidePreferencePicker> {
                 leftIcon: Icons.location_on,
                 onPressed: onDeparturePressed,
                 rightIcon: switchVisible ? Icons.swap_vert : null,
-                onRightIconPressed: switchVisible
-                    ? onSwappingLocationPressed
-                    : null,
+                onRightIconPressed:
+                    switchVisible ? onSwappingLocationPressed : null,
               ),
               const BlaDivider(),
 

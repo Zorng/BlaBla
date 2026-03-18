@@ -72,7 +72,7 @@ class _BlaLocationPickerState extends State<BlaLocationPicker> {
               ),
         )
         .toList();
-    print(filteredLocation);
+    //print(filteredLocation);
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(
