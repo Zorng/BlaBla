@@ -157,7 +157,7 @@ List<User> fakeUsers = [
     arrivalDateTime: DateTime.now().add(Duration(hours: 8)),
     driver: fakeUsers[0],
     availableSeats: 2,
-    pricePerSeat: 25.0,
+    pricePerSeat: 99.0,
   ),
 
   Ride(
