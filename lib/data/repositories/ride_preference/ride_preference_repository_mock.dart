@@ -9,9 +9,15 @@ class RidePreferenceRepositoryMock implements RidePreferenceRepository {
   @override
   List<RidePreference> get preferenceHistory => _preferenceHistory;
 
-
   @override
   void addPreferenceToHistory(RidePreference preference) {
-    _preferenceHistory.add(preference);
+    int index = _preferenceHistory.indexOf(preference);
+
+    // if same pref, remove it before put it on top
+    if (index != -1) {
+      _preferenceHistory.removeAt(index); 
+    } 
+
+    _preferenceHistory.insert(0, preference);
   }
 }
