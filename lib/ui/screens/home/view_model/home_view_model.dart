@@ -27,5 +27,7 @@ class HomeViewModel extends ChangeNotifier {
 
   void selectPreference(RidePreference preference) {
     preferenceState.selectPreference(preference);
+
+    notifyListeners();
   }
 }

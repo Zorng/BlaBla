@@ -65,12 +65,10 @@ class HomeContent extends StatelessWidget {
             children: [
               // 2 - THE FORM
               BlaRidePreferencePicker(
-                initRidePreference: RidePrefsService.selectedPreference,
-                onRidePreferenceSelected: (pref) => 
-                  //print(viewModel.preferenceState.currentRidePref),
-                  onRidePrefSelected(
-                      context, pref)
-                ,
+                initRidePreference: viewModel.preferenceState.currentRidePref,
+                onRidePreferenceSelected: (pref) =>
+                    //print(viewModel.preferenceState.currentRidePref),
+                    onRidePrefSelected(context, pref),
               ),
               SizedBox(height: BlaSpacings.m),
 
@@ -88,21 +86,26 @@ class HomeContent extends StatelessWidget {
     List<RidePreference> history = viewModel.history;
     // List<RidePreference> history =
     // RidePrefsService.preferenceHistory.reversed.toList();
-    return SizedBox(
-      height: 200, // Set a fixed height
-      child: ListView.builder(
-        shrinkWrap: true, // Fix ListView height issue
-        physics: AlwaysScrollableScrollPhysics(),
-        itemCount: history.length,
-        itemBuilder: (ctx, index) => HomeHistoryTile(
-          ridePref: history[index],
-          onPressed: () => onRidePrefSelected(
-            ctx,
-            history[index],
+    
+    return ListenableBuilder(
+      listenable: viewModel,
+      builder: (context, child) => SizedBox(
+        height: 200, // Set a fixed height
+        child: ListView.builder(
+          shrinkWrap: true, // Fix ListView height issue
+          physics: AlwaysScrollableScrollPhysics(),
+          itemCount: history.length,
+          itemBuilder: (ctx, index) => HomeHistoryTile(
+            ridePref: history[index],
+            onPressed: () => onRidePrefSelected(
+              ctx,
+              history[index],
+            ),
           ),
         ),
       ),
     );
+    
   }
 
   Widget _buildBackground() {
